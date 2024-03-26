@@ -14,7 +14,11 @@ const newNoteSchema = zod.object({
 
 type NewNoteSchema = zod.infer<typeof newNoteSchema>
 
-export function NewNoteCard() {
+interface NewNoteCardProps {
+  onNoteCreated: (content: string) => void
+}
+
+export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
 
   const { handleSubmit, register, reset } = useForm<NewNoteSchema>({
@@ -30,10 +34,11 @@ export function NewNoteCard() {
   }
 
   function handleSaveNote(data: NewNoteSchema) {
-    toast.success('Nota criada com sucesso! ')
-
-    console.log(data)
+    onNoteCreated(data.content)
+    setShouldShowOnboarding(true)
     reset()
+
+    toast.success('Nota criada com sucesso! ')
   }
 
   return (
