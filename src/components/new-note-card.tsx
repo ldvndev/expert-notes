@@ -8,23 +8,25 @@ import { ChevronLeft, X } from 'lucide-react'
 
 import { useState } from 'react'
 
-const newNoteSchema = zod.object({
+const newNoteCardSchema = zod.object({
   content: zod.string(),
 })
 
-type NewNoteSchema = zod.infer<typeof newNoteSchema>
+type NewNoteCardSchema = zod.infer<typeof newNoteCardSchema>
 
 interface NewNoteCardProps {
   onNoteCreated: (content: string) => void
 }
 
 export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
-  const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
   const [isRecording, setIsRecording] = useState(false)
+  const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
+  const { handleSubmit, register, reset, setValue } =
+    useForm<NewNoteCardSchema>({
+      resolver: zodResolver(newNoteCardSchema),
+    })
 
-  const { handleSubmit, register, reset, setValue } = useForm<NewNoteSchema>({
-    resolver: zodResolver(newNoteSchema),
-  })
+  let speechRecognition: SpeechRecognition | null = null
 
   function handleStartEditor() {
     setShouldShowOnboarding(false)
@@ -34,7 +36,7 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
     setShouldShowOnboarding(true)
   }
 
-  function handleSaveNote(data: NewNoteSchema) {
+  function handleSaveNote(data: NewNoteCardSchema) {
     if (data.content === '') {
       return
     }
@@ -60,7 +62,7 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
     const SpeechRecognitionAPI =
       window.SpeechRecognition || window.webkitSpeechRecognition
 
-    const speechRecognition = new SpeechRecognitionAPI()
+    speechRecognition = new SpeechRecognitionAPI()
 
     speechRecognition.lang = 'pt-BR'
     speechRecognition.continuous = true
@@ -84,6 +86,10 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
 
   function handleStopRecording() {
     setIsRecording(false)
+
+    if (speechRecognition !== null) {
+      speechRecognition.stop()
+    }
   }
 
   return (
@@ -153,7 +159,7 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
 
             {isRecording ? (
               <button
-                type="button"
+                // type="button"
                 onClick={handleStopRecording}
                 className="w-full flex items-center justify-center gap-2 bg-slate-900 py-4 text-center text-sm text-slate-300 outline-none font-medium hover:text-slate-100"
               >
