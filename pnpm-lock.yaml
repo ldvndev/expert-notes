@@ -37,6 +37,9 @@ devDependencies:
   '@rocketseat/eslint-config':
     specifier: ^2.2.2
     version: 2.2.2(eslint@8.57.0)(typescript@5.4.3)
+  '@types/dom-speech-recognition':
+    specifier: ^0.0.4
+    version: 0.0.4
   '@types/react':
     specifier: ^18.2.66
     version: 18.2.70
@@ -1110,6 +1113,10 @@ packages:
     resolution: {integrity: sha512-WXCyOcRtH37HAUkpXhUduaxdm82b4GSlyTqajXviN4EfiuPgNYR109xMCKvpl6zPIpua0DGlMEDCq+g8EdoheQ==}
     dependencies:
       '@babel/types': 7.24.0
+    dev: true
+
+  /@types/dom-speech-recognition@0.0.4:
+    resolution: {integrity: sha512-zf2GwV/G6TdaLwpLDcGTIkHnXf8JEf/viMux+khqKQKDa8/8BAUtXXZS563GnvJ4Fg0PBLGAaFf2GekEVSZ6GQ==}
     dev: true
 
   /@types/estree@1.0.5:

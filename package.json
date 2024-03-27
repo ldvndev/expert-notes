@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",
+    "@types/dom-speech-recognition": "^0.0.4",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
